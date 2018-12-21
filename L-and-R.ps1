@@ -3,10 +3,10 @@
 #to bad this wont work if winrm service is not runing
 
 
-
+$server = "server"
 $logfile = "RebootServer.log"
 $timestamp = (Get-Date).toString("yyyy/MM/dd HH:mm:ss")
-$body = "Logingoff users from 192.168.4.91"
+$body = "Logingoff users."
 $line = "$timestamp $body"
 add-content $Logfile -Value $line
 
@@ -20,7 +20,7 @@ function Longentry($Message){
 
 
 
-$logoffVal = Invoke-CimMethod -ClassName Win32_Operatingsystem -ComputerName 192.168.4.91 -MethodName Win32Shutdown -Arguments @{ Flags = 0 }
+$logoffVal = Invoke-CimMethod -ClassName Win32_Operatingsystem -ComputerName $server -MethodName Win32Shutdown -Arguments @{ Flags = 0 }
 Write-Host "Return val: " $logoffVal.ReturnValue
 
 
@@ -28,7 +28,7 @@ Write-Host "Return val: " $logoffVal.ReturnValue
 if (!$logoffVal){
     longentry("Logoff return vaule was null.")
     Start-Sleep -s 600
-    $rebootVal = Invoke-CimMethod -ClassName Win32_Operatingsystem -ComputerName 192.168.4.91 -MethodName Win32Shutdown -Arguments @{ Flags = 2 }
+    $rebootVal = Invoke-CimMethod -ClassName Win32_Operatingsystem -ComputerName $server -MethodName Win32Shutdown -Arguments @{ Flags = 2 }
     if (!$rebootVal){
         longentry("Reboot return vaule was null.")
 
