@@ -44,7 +44,7 @@ if (!$logoffVal){
 elseif($logoffVal.ReturnValue -eq(0)){
     longentry("Logoff was successfull.")
     Start-Sleep -s 600
-    $rebootVal = Invoke-CimMethod -ClassName Win32_Operatingsystem -ComputerName 192.168.4.91 -MethodName Win32Shutdown -Arguments @{ Flags = 2 }
+    $rebootVal = Invoke-CimMethod -ClassName Win32_Operatingsystem -ComputerName $server -MethodName Win32Shutdown -Arguments @{ Flags = 2 }
     if (!$rebootVal){
         longentry("Reboot return vaule was null.")
 
